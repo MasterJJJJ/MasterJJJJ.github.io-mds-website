@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "My first weeks in MDS\n\n\n\n\n\n\n\n\nSep 10, 2026\n\n\nJerry Jin\n\n\n\n\n\nNo matching items"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Jerry Jin",
@@ -26,12 +33,5 @@
     "title": "About",
     "section": "Outside of data science: swim, badminton, basketball, football, chess",
     "text": "Outside of data science: swim, badminton, basketball, football, chess"
-  },
-  {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "Blog",
-    "section": "",
-    "text": "My first weeks in MDS\n\n\n\n\n\n\n\n\nSep 10, 2026\n\n\nJerry Jin\n\n\n\n\n\nNo matching items"
   }
 ]
