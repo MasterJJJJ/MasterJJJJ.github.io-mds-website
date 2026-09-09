@@ -2,4 +2,6 @@
 title: "About"
 ---
 
-About this site
+## Background: Grew up in Shanghai, been in Vancouver since G10
+## Why data science: I studied Math for my Bachelor at UBC and I want to apply theory to real-life data.
+## Outside of data science: swim, badminton, basketball, football, chess
