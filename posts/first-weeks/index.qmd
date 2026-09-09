@@ -5,4 +5,4 @@ date: 2026-09-10
 ---
 
 
-![Imagine day on campus.](images/boardgameclub_logo.jpg)
+![Imagine day on campus.](/images/Imagine_day.jpg)

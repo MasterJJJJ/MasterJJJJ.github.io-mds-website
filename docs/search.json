@@ -1,16 +1,37 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Milestone 2",
+    "title": "Jerry Jin",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "text": "A short paragraph introducing yourself. Three or four sentences is plenty. Say where you came from, what you studied or worked on before MDS, and what you are hoping to get out of the program. Hi everyone! My name is Jerry Jin. An international student from Shanghai China. I’ve been in Vancouver since before the pandemic. I studied Bachelor of Science Major in Math at UBC V. MDs is my dream programme and i hope to get the skillset for transitioning my theoriotical Math skill to real-life problem solver. This is the logo for my favourite club in UBC\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+  },
+  {
+    "objectID": "posts/first-weeks/index.html",
+    "href": "posts/first-weeks/index.html",
+    "title": "My first weeks in MDS",
+    "section": "",
+    "text": "Imagine day on campus."
+  },
+  {
+    "objectID": "about.html#why-data-science-i-studied-math-for-my-bachelor-at-ubc-and-i-want-to-apply-theory-to-real-life-data.",
+    "href": "about.html#why-data-science-i-studied-math-for-my-bachelor-at-ubc-and-i-want-to-apply-theory-to-real-life-data.",
+    "title": "About",
+    "section": "Why data science: I studied Math for my Bachelor at UBC and I want to apply theory to real-life data.",
+    "text": "Why data science: I studied Math for my Bachelor at UBC and I want to apply theory to real-life data."
+  },
+  {
+    "objectID": "about.html#outside-of-data-science-swim-badminton-basketball-football-chess",
+    "href": "about.html#outside-of-data-science-swim-badminton-basketball-football-chess",
+    "title": "About",
+    "section": "Outside of data science: swim, badminton, basketball, football, chess",
+    "text": "Outside of data science: swim, badminton, basketball, football, chess"
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "My first weeks in MDS\n\n\n\n\n\n\n\n\nSep 10, 2026\n\n\nJerry Jin\n\n\n\n\n\nNo matching items"
   }
 ]
