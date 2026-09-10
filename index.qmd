@@ -2,8 +2,8 @@
 title: "Jerry Jin"
 ---
 ![](images/boardgameclub_logo.jpg){width=250px}
-A short paragraph introducing yourself. Three or four sentences is plenty. Say where you came from, what you studied or worked on before MDS, and what you are hoping to get out of the program.
+
+Three or four sentences is plenty. Say where you came from, what you studied or worked on before MDS, and what you are hoping to get out of the program.
 Hi everyone! My name is Jerry Jin. An international student from Shanghai China. I've been in Vancouver since before the pandemic. I studied Bachelor of Science Major in Math at UBC V. MDs is my dream programme and i hope to get the skillset for transitioning my theoriotical Math skill to real-life problem solver.
 This is the logo for my favourite club in UBC
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
