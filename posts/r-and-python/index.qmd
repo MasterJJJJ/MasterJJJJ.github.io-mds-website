@@ -1,0 +1,111 @@
+---
+title: "CR7 vs LM10: Python and R working together"
+author: "Jerry Jin"
+date: 2026-09-23
+engine: knitr
+---
+
+## Question and data
+
+Which player scored more recorded club goals in each calendar year from 2006 to 2022? This post uses Python to prepare yearly counts, passes them to R to calculate and plot differences, then passes R's result back to Python for a summary.
+
+Data: [Lionel Messi vs Cristiano Ronaldo | Club Goals](https://www.kaggle.com/datasets/azminetoushikwasi/lionel-messi-vs-cristiano-ronaldo-club-goals), compiled by Azmine Toushik Wasi on Kaggle. The locally included CSV is licensed under [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/) for the database and [DbCL 1.0](https://opendatacommons.org/licenses/dbcl/1-0/) for its contents. Any adapted database published with this analysis is also available under ODbL 1.0.
+
+The records end in March 2023. I exclude 2023 because it is only a partial year, and start in 2006, the first full calendar year after both players appear in the file. This is a shared observation window, not a guarantee that the source contains every goal.
+
+## Connect R to the project's Python
+
+The knitr engine runs the R chunks and uses reticulate for the Python chunks. The path is relative to this post, so it also works in a fresh clone. Setting the interpreter before Python starts ensures the post uses the same `.venv` as the Python-only analysis.
+
+```{r}
+#| label: setup-reticulate
+#| message: false
+#| warning: false
+library(reticulate)
+library(knitr)
+python_path <- file.path("..", "..", ".venv", "bin", "python")
+stopifnot(file.exists(python_path))
+Sys.setenv(RETICULATE_PYTHON = python_path)
+py_config()
+```
+
+## Python: prepare annual goal counts
+
+Each row is one goal. I count the rows for each player and year, then explicitly include every year in the chosen window. A zero means no recorded goal in this file, rather than proof of no goals in reality.
+
+```{python}
+#| label: python-annual-counts
+import pandas as pd
+
+goals = pd.read_csv("../../data/mds521_cr7_lm10.csv")
+goals["Year"] = pd.to_datetime(goals["Date"]).dt.year
+window = goals.loc[goals["Year"].between(2006, 2022)]
+annual = pd.crosstab(window["Year"], window["Player"])
+annual = annual.reindex(range(2006, 2023), fill_value=0)
+assert annual.to_numpy().sum() == len(window)
+print(annual.to_string())
+
+# Ordinary Python lists make the object easy to transfer to R.
+annual_counts = {
+    "Year": annual.index.tolist(),
+    "Ronaldo": annual["Cristiano Ronaldo"].tolist(),
+    "Messi": annual["Lionel Messi"].tolist(),
+}
+```
+
+## R: use the Python object
+
+`py$annual_counts` accesses the dictionary created in the previous Python chunk. R calculates Ronaldo's count minus Messi's count for each year. Positive values mean Ronaldo has more recorded goals; negative values mean Messi has more.
+
+```{r}
+#| label: r-yearly-differences
+shared_counts <- py$annual_counts
+yearly <- data.frame(
+  Year = unlist(shared_counts$Year),
+  Ronaldo = unlist(shared_counts$Ronaldo),
+  Messi = unlist(shared_counts$Messi)
+)
+stopifnot(nrow(yearly) == 17, !anyNA(yearly))
+yearly$Difference <- yearly$Ronaldo - yearly$Messi
+kable(yearly, row.names = FALSE,
+      caption = "Recorded goals and Ronaldo-minus-Messi differences by calendar year.")
+ronaldo_years <- sum(yearly$Difference > 0)
+messi_years <- sum(yearly$Difference < 0)
+tied_years <- sum(yearly$Difference == 0)
+```
+
+## Plot the differences in R
+
+```{r}
+#| label: fig-mixed-yearly-differences
+#| fig-cap: "Difference in recorded club goals by calendar year, 2006–2022. Blue bars favour Ronaldo, orange bars favour Messi, and zero indicates a tie."
+#| fig-width: 8
+#| fig-height: 5
+bar_colors <- ifelse(yearly$Difference > 0, "#2166ac",
+                     ifelse(yearly$Difference < 0, "#b35806", "#777777"))
+barplot(yearly$Difference, names.arg = yearly$Year,
+        col = bar_colors, border = NA, las = 2,
+        xlab = "Calendar year", ylab = "Recorded goals: Ronaldo minus Messi")
+abline(h = 0, col = "#333333")
+```
+
+## Python: use R's results
+
+The `r` object exposes R variables to Python. This final calculation checks that R's three categories account for every year in Python's table, demonstrating that both languages participate in the same computation.
+
+```{python}
+#| label: python-use-r-results
+ronaldo_ahead = int(r.ronaldo_years)
+messi_ahead = int(r.messi_years)
+ties = int(r.tied_years)
+assert ronaldo_ahead + messi_ahead + ties == len(annual)
+print(f"Ronaldo led in {ronaldo_ahead} years; Messi led in {messi_ahead}; ties: {ties}.")
+```
+
+## What this comparison tells us
+
+Within this window, Ronaldo leads in `r ronaldo_years` calendar years and Messi in `r messi_years`, with a tie in `r tied_years` of those years. The largest absolute annual gap is `r max(abs(yearly$Difference))` recorded goals. Counting years gives each year equal weight, regardless of how large the gap was, so it answers a different question from comparing total goals across the whole period.
+
+These counts do not adjust for appearances, minutes, opponents, or competitions. Calendar years also cross club seasons. They describe the historical records provided here and cannot establish which player was more efficient or better overall.
+
+The language bridge follows [Quarto's knitr and reticulate workflow](https://quarto.org/docs/computations/python.html) and [reticulate's Python configuration](https://pkgs.rstudio.com/reticulate/articles/versions.html).

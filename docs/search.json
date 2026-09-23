@@ -4,7 +4,7 @@
     "href": "blog.html",
     "title": "Blog",
     "section": "",
-    "text": "CR7 vs LM10 in python\n\n\n\n\n\n\n\n\nSep 23, 2026\n\n\nJerry Jin\n\n\n\n\n\n\n\n\n\n\n\n\nMy first weeks in MDS\n\n\n\n\n\n\n\n\nSep 10, 2026\n\n\nJerry Jin\n\n\n\n\n\n\n\n\n\n\n\n\nCR7 vs LM10 in R\n\n\n\n\n\n\n\n\nSep 10, 2026\n\n\nJerry Jin\n\n\n\n\n\nNo matching items"
+    "text": "CR7 vs LM10 in python\n\n\n\n\n\n\n\n\nSep 23, 2026\n\n\nJerry Jin\n\n\n\n\n\n\n\n\n\n\n\n\nCR7 vs LM10: Python and R working together\n\n\n\n\n\n\n\n\nSep 23, 2026\n\n\nJerry Jin\n\n\n\n\n\n\n\n\n\n\n\n\nMy first weeks in MDS\n\n\n\n\n\n\n\n\nSep 10, 2026\n\n\nJerry Jin\n\n\n\n\n\n\n\n\n\n\n\n\nCR7 vs LM10 in R\n\n\n\n\n\n\n\n\nSep 10, 2026\n\n\nJerry Jin\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
@@ -12,6 +12,69 @@
     "title": "Jerry Jin",
     "section": "",
     "text": "Hi, I’m Jerry Jin! I grew up in Shanghai and have lived in Vancouver since Grade 10. After completing my Bachelor of Science in Mathematics at UBC, I joined the Master of Data Science program to learn how to apply mathematical ideas to real-world problems.\nOn this website, I share projects and reflections from my time in MDS. Visit my blog to see what I’m working on, or read more about me.\n\n\n\nThe logo of my favourite board game club at UBC."
+  },
+  {
+    "objectID": "posts/cr7-vs-lm10-python/index.html",
+    "href": "posts/cr7-vs-lm10-python/index.html",
+    "title": "CR7 vs LM10 in python",
+    "section": "",
+    "text": "Data: Lionel Messi vs Cristiano Ronaldo | Club Goals, compiled by Azmine Toushik Wasi and published on Kaggle. This analysis uses the locally downloaded CSV stored in this repository.\nThe database is licensed under the Open Database License (ODbL) 1.0, and its contents under the Database Contents License (DbCL) 1.0. The included data retains these licences; any adapted database published with this analysis is also made available under ODbL 1.0."
+  },
+  {
+    "objectID": "posts/cr7-vs-lm10-python/index.html#data-source-and-licence",
+    "href": "posts/cr7-vs-lm10-python/index.html#data-source-and-licence",
+    "title": "CR7 vs LM10 in python",
+    "section": "",
+    "text": "Data: Lionel Messi vs Cristiano Ronaldo | Club Goals, compiled by Azmine Toushik Wasi and published on Kaggle. This analysis uses the locally downloaded CSV stored in this repository.\nThe database is licensed under the Open Database License (ODbL) 1.0, and its contents under the Database Contents License (DbCL) 1.0. The included data retains these licences; any adapted database published with this analysis is also made available under ODbL 1.0."
+  },
+  {
+    "objectID": "posts/cr7-vs-lm10-python/index.html#question-and-scope",
+    "href": "posts/cr7-vs-lm10-python/index.html#question-and-scope",
+    "title": "CR7 vs LM10 in python",
+    "section": "Question and scope",
+    "text": "Question and scope\nHow do Ronaldo and Messi compare in the number and types of club goals recorded in this dataset? Each row represents one goal, not one match. The file is a historical snapshot, so these results are not current career totals."
+  },
+  {
+    "objectID": "posts/cr7-vs-lm10-python/index.html#load-and-inspect-the-data",
+    "href": "posts/cr7-vs-lm10-python/index.html#load-and-inspect-the-data",
+    "title": "CR7 vs LM10 in python",
+    "section": "Load and inspect the data",
+    "text": "Load and inspect the data\nThe relative path below reads the shared CSV from this post’s folder. The interpreter path confirms which Python environment executes the post.\n\nimport sys\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nprint(\"Python interpreter:\", sys.executable)\nstats = pd.read_csv(\"../../data/mds521_cr7_lm10.csv\")\nstats[\"Date\"] = pd.to_datetime(stats[\"Date\"], format=\"%Y-%m-%d\")\nprint(f\"{len(stats):,} goal records; {stats.duplicated().sum()} exact duplicate rows\")\nstats[[\"Player\", \"Date\", \"Competition\", \"Type\"]].head()\n\nPython interpreter: /Users/jzq/DSCI521/MasterJJJJ.github.io-mds-website/.venv/bin/python3\n1,413 goal records; 0 exact duplicate rows\n\n\n\n\n\n\n\n\n\nPlayer\nDate\nCompetition\nType\n\n\n\n\n0\nCristiano Ronaldo\n2002-10-07\nLiga Portugal\nSolo run\n\n\n1\nCristiano Ronaldo\n2002-10-07\nLiga Portugal\nHeader\n\n\n2\nCristiano Ronaldo\n2002-10-26\nLiga Portugal\nRight-footed shot\n\n\n3\nCristiano Ronaldo\n2002-11-24\nTaca de Portugal Placard\nLeft-footed shot\n\n\n4\nCristiano Ronaldo\n2002-12-18\nTaca de Portugal Placard\nNaN"
+  },
+  {
+    "objectID": "posts/cr7-vs-lm10-python/index.html#count-goals-and-check-coverage",
+    "href": "posts/cr7-vs-lm10-python/index.html#count-goals-and-check-coverage",
+    "title": "CR7 vs LM10 in python",
+    "section": "Count goals and check coverage",
+    "text": "Count goals and check coverage\nI count rows for each player and check the earliest and latest dates. Different coverage periods mean the totals should not be interpreted as a fair comparison of scoring rates.\n\nsummary = stats.groupby(\"Player\").agg(\n    recorded_goals=(\"Player\", \"size\"),\n    first_date=(\"Date\", \"min\"),\n    last_date=(\"Date\", \"max\"),\n    missing_goal_type=(\"Type\", lambda column: column.isna().sum()),\n)\nsummary\n\n\n\n\n\n\n\n\nrecorded_goals\nfirst_date\nlast_date\nmissing_goal_type\n\n\nPlayer\n\n\n\n\n\n\n\n\nCristiano Ronaldo\n710\n2002-10-07\n2023-03-18\n15\n\n\nLionel Messi\n703\n2005-05-01\n2023-03-04\n1\n\n\n\n\n\n\n\nRonaldo has 710 recorded goals and Messi has 703. Ronaldo’s records begin in October 2002, while Messi’s begin in May 2005; both series end in March 2023. A seven-goal difference alone does not establish who was more effective because this file does not provide all appearances or minutes played."
+  },
+  {
+    "objectID": "posts/cr7-vs-lm10-python/index.html#compare-scoring-types",
+    "href": "posts/cr7-vs-lm10-python/index.html#compare-scoring-types",
+    "title": "CR7 vs LM10 in python",
+    "section": "Compare scoring types",
+    "text": "Compare scoring types\nMissing goal types remain in an explicit Unknown category. Percentages use every recorded goal for each player as the denominator, including unknown types.\n\nstats[\"Type\"] = stats[\"Type\"].fillna(\"Unknown\")\ntype_counts = pd.crosstab(stats[\"Type\"], stats[\"Player\"])\ntype_percent = type_counts.div(type_counts.sum(axis=0), axis=1) * 100\ntype_percent.round(1).rename_axis(\"Goal type\")\n\n\n\n\n\n\n\nPlayer\nCristiano Ronaldo\nLionel Messi\n\n\nGoal type\n\n\n\n\n\n\nChest\n0.0\n0.1\n\n\nCounter attack goal\n0.8\n0.1\n\n\nDeflected shot on goal\n0.3\n0.3\n\n\nDirect free kick\n6.9\n7.4\n\n\nHeader\n15.8\n3.4\n\n\nLeft-footed shot\n15.9\n62.0\n\n\nLong distance kick\n1.3\n0.1\n\n\nPenalty\n18.6\n11.9\n\n\nPenalty rebound\n0.4\n0.4\n\n\nRight-footed shot\n35.6\n12.1\n\n\nSolo run\n0.3\n0.6\n\n\nTap-in\n2.0\n1.3\n\n\nUnknown\n2.1\n0.1"
+  },
+  {
+    "objectID": "posts/cr7-vs-lm10-python/index.html#visualize-the-distribution",
+    "href": "posts/cr7-vs-lm10-python/index.html#visualize-the-distribution",
+    "title": "CR7 vs LM10 in python",
+    "section": "Visualize the distribution",
+    "text": "Visualize the distribution\n\nordered_types = type_counts.sum(axis=1).sort_values().index\nax = type_percent.loc[ordered_types].plot.barh(\n    color=[\"#2166ac\", \"#b35806\"], figsize=(9, 6)\n)\nax.set_xlabel(\"Share of recorded goals (%)\")\nax.set_ylabel(\"\")\nax.legend(title=\"Player\", loc=\"lower right\")\nax.grid(axis=\"x\", alpha=0.2)\nax.set_axisbelow(True)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigure 1: Share of recorded club goals by dataset scoring category. Unknown includes missing types; each player’s categories sum to 100%."
+  },
+  {
+    "objectID": "posts/cr7-vs-lm10-python/index.html#what-i-found",
+    "href": "posts/cr7-vs-lm10-python/index.html#what-i-found",
+    "title": "CR7 vs LM10 in python",
+    "section": "What I found",
+    "text": "What I found\nMessi’s largest category is left-footed shots (436 goals), while Ronaldo’s is right-footed shots (253). Ronaldo also has more recorded headers (112 versus 24). These differences describe the scoring profiles in this file; they do not measure shooting accuracy because unsuccessful attempts are absent.\nThe categories mix body parts with situations such as penalties and free kicks. A goal labelled Penalty is not also counted under the foot used, so these categories cannot establish the total number of goals scored with each foot. There are also 15 unknown types for Ronaldo and one for Messi."
+  },
+  {
+    "objectID": "posts/first-weeks/index.html",
+    "href": "posts/first-weeks/index.html",
+    "title": "My first weeks in MDS",
+    "section": "",
+    "text": "Starting MDS at UBC honestly feels a little strange in a good way. I already know the campus, but being here as a new grad student makes everything feel fresh again. The program moves pretty fast, so there’s definitely a bit of pressure, but I’m also excited to meet new people, learn more practical data science skills, and see what this year is going to be like. It feels like a new start without actually having to start completely from zero.\nImagine Day was probably one of the best ways to ease into the new school year. Campus was super busy, with booths, music, events, and students everywhere. I spent some time walking around, checking out different clubs, and just enjoying the atmosphere. Even though I’ve been at UBC for a while, it was still fun seeing campus feel so alive again. It made the start of the semester feel a lot less serious and a lot more exciting.\nI know MDS is going to be a busy year, and I’ll probably be spending a lot of time on assignments and projects, but I still want to enjoy the student side of UBC too. I want to go to more events, meet people outside my program, and actually make time for the fun stuff instead of only thinking about school. It’s only the beginning, but so far, I’m excited for what’s coming next."
   },
   {
     "objectID": "posts/cr7-vs-lm10-r/index.html",
@@ -70,67 +133,60 @@
     "text": "What I found\nIn this snapshot, Ronaldo scored 404 goals at home and 306 away. Messi scored 419 at home and 284 away. The home shares are 56.9% and 59.6%, respectively.\nThis comparison shows where the recorded goals occurred. It cannot establish a home advantage or compare player ability: we would need match appearances, minutes played, and opponent information for both scoring and non-scoring matches. Different career coverage and competitions also limit the comparison."
   },
   {
-    "objectID": "posts/first-weeks/index.html",
-    "href": "posts/first-weeks/index.html",
-    "title": "My first weeks in MDS",
+    "objectID": "posts/r-and-python/index.html",
+    "href": "posts/r-and-python/index.html",
+    "title": "CR7 vs LM10: Python and R working together",
     "section": "",
-    "text": "Starting MDS at UBC honestly feels a little strange in a good way. I already know the campus, but being here as a new grad student makes everything feel fresh again. The program moves pretty fast, so there’s definitely a bit of pressure, but I’m also excited to meet new people, learn more practical data science skills, and see what this year is going to be like. It feels like a new start without actually having to start completely from zero.\nImagine Day was probably one of the best ways to ease into the new school year. Campus was super busy, with booths, music, events, and students everywhere. I spent some time walking around, checking out different clubs, and just enjoying the atmosphere. Even though I’ve been at UBC for a while, it was still fun seeing campus feel so alive again. It made the start of the semester feel a lot less serious and a lot more exciting.\nI know MDS is going to be a busy year, and I’ll probably be spending a lot of time on assignments and projects, but I still want to enjoy the student side of UBC too. I want to go to more events, meet people outside my program, and actually make time for the fun stuff instead of only thinking about school. It’s only the beginning, but so far, I’m excited for what’s coming next."
+    "text": "Which player scored more recorded club goals in each calendar year from 2006 to 2022? This post uses Python to prepare yearly counts, passes them to R to calculate and plot differences, then passes R’s result back to Python for a summary.\nData: Lionel Messi vs Cristiano Ronaldo | Club Goals, compiled by Azmine Toushik Wasi on Kaggle. The locally included CSV is licensed under ODbL 1.0 for the database and DbCL 1.0 for its contents. Any adapted database published with this analysis is also available under ODbL 1.0.\nThe records end in March 2023. I exclude 2023 because it is only a partial year, and start in 2006, the first full calendar year after both players appear in the file. This is a shared observation window, not a guarantee that the source contains every goal."
   },
   {
-    "objectID": "posts/cr7-vs-lm10-python/index.html",
-    "href": "posts/cr7-vs-lm10-python/index.html",
-    "title": "CR7 vs LM10 in python",
+    "objectID": "posts/r-and-python/index.html#question-and-data",
+    "href": "posts/r-and-python/index.html#question-and-data",
+    "title": "CR7 vs LM10: Python and R working together",
     "section": "",
-    "text": "Data: Lionel Messi vs Cristiano Ronaldo | Club Goals, compiled by Azmine Toushik Wasi and published on Kaggle. This analysis uses the locally downloaded CSV stored in this repository.\nThe database is licensed under the Open Database License (ODbL) 1.0, and its contents under the Database Contents License (DbCL) 1.0. The included data retains these licences; any adapted database published with this analysis is also made available under ODbL 1.0."
+    "text": "Which player scored more recorded club goals in each calendar year from 2006 to 2022? This post uses Python to prepare yearly counts, passes them to R to calculate and plot differences, then passes R’s result back to Python for a summary.\nData: Lionel Messi vs Cristiano Ronaldo | Club Goals, compiled by Azmine Toushik Wasi on Kaggle. The locally included CSV is licensed under ODbL 1.0 for the database and DbCL 1.0 for its contents. Any adapted database published with this analysis is also available under ODbL 1.0.\nThe records end in March 2023. I exclude 2023 because it is only a partial year, and start in 2006, the first full calendar year after both players appear in the file. This is a shared observation window, not a guarantee that the source contains every goal."
   },
   {
-    "objectID": "posts/cr7-vs-lm10-python/index.html#data-source-and-licence",
-    "href": "posts/cr7-vs-lm10-python/index.html#data-source-and-licence",
-    "title": "CR7 vs LM10 in python",
-    "section": "",
-    "text": "Data: Lionel Messi vs Cristiano Ronaldo | Club Goals, compiled by Azmine Toushik Wasi and published on Kaggle. This analysis uses the locally downloaded CSV stored in this repository.\nThe database is licensed under the Open Database License (ODbL) 1.0, and its contents under the Database Contents License (DbCL) 1.0. The included data retains these licences; any adapted database published with this analysis is also made available under ODbL 1.0."
+    "objectID": "posts/r-and-python/index.html#connect-r-to-the-projects-python",
+    "href": "posts/r-and-python/index.html#connect-r-to-the-projects-python",
+    "title": "CR7 vs LM10: Python and R working together",
+    "section": "Connect R to the project’s Python",
+    "text": "Connect R to the project’s Python\nThe knitr engine runs the R chunks and uses reticulate for the Python chunks. The path is relative to this post, so it also works in a fresh clone. Setting the interpreter before Python starts ensures the post uses the same .venv as the Python-only analysis.\n\nlibrary(reticulate)\nlibrary(knitr)\npython_path &lt;- file.path(\"..\", \"..\", \".venv\", \"bin\", \"python\")\nstopifnot(file.exists(python_path))\nSys.setenv(RETICULATE_PYTHON = python_path)\npy_config()\n\npython:         /Users/jzq/DSCI521/MasterJJJJ.github.io-mds-website/.venv/bin/python\nlibpython:      /Users/jzq/.local/share/uv/python/cpython-3.14.7-macos-aarch64-none/lib/libpython3.14.dylib\npythonhome:     /Users/jzq/DSCI521/MasterJJJJ.github.io-mds-website/.venv:/Users/jzq/DSCI521/MasterJJJJ.github.io-mds-website/.venv\nvirtualenv:     /Users/jzq/DSCI521/MasterJJJJ.github.io-mds-website/.venv/bin/activate_this.py\nversion:        3.14.7 (main, Aug 14 2026, 15:24:10) [Clang 22.1.3 ]\nnumpy:          /Users/jzq/DSCI521/MasterJJJJ.github.io-mds-website/.venv/lib/python3.14/site-packages/numpy\nnumpy_version:  2.5.3\n\nNOTE: Python version was forced by RETICULATE_PYTHON"
   },
   {
-    "objectID": "posts/cr7-vs-lm10-python/index.html#question-and-scope",
-    "href": "posts/cr7-vs-lm10-python/index.html#question-and-scope",
-    "title": "CR7 vs LM10 in python",
-    "section": "Question and scope",
-    "text": "Question and scope\nHow do Ronaldo and Messi compare in the number and types of club goals recorded in this dataset? Each row represents one goal, not one match. The file is a historical snapshot, so these results are not current career totals."
+    "objectID": "posts/r-and-python/index.html#python-prepare-annual-goal-counts",
+    "href": "posts/r-and-python/index.html#python-prepare-annual-goal-counts",
+    "title": "CR7 vs LM10: Python and R working together",
+    "section": "Python: prepare annual goal counts",
+    "text": "Python: prepare annual goal counts\nEach row is one goal. I count the rows for each player and year, then explicitly include every year in the chosen window. A zero means no recorded goal in this file, rather than proof of no goals in reality.\n\nimport pandas as pd\n\ngoals = pd.read_csv(\"../../data/mds521_cr7_lm10.csv\")\ngoals[\"Year\"] = pd.to_datetime(goals[\"Date\"]).dt.year\nwindow = goals.loc[goals[\"Year\"].between(2006, 2022)]\nannual = pd.crosstab(window[\"Year\"], window[\"Player\"])\nannual = annual.reindex(range(2006, 2023), fill_value=0)\nassert annual.to_numpy().sum() == len(window)\nprint(annual.to_string())\n\nPlayer  Cristiano Ronaldo  Lionel Messi\nYear                                   \n2006                   19            10\n2007                   29            25\n2008                   34            20\n2009                   29            38\n2010                   45            58\n2011                   53            55\n2012                   58            79\n2013                   59            39\n2014                   56            50\n2015                   54            48\n2016                   42            51\n2017                   42            50\n2018                   43            47\n2019                   25            45\n2020                   41            26\n2021                   34            34\n2022                   13            20\n\n\n# Ordinary Python lists make the object easy to transfer to R.\nannual_counts = {\n    \"Year\": annual.index.tolist(),\n    \"Ronaldo\": annual[\"Cristiano Ronaldo\"].tolist(),\n    \"Messi\": annual[\"Lionel Messi\"].tolist(),\n}"
   },
   {
-    "objectID": "posts/cr7-vs-lm10-python/index.html#load-and-inspect-the-data",
-    "href": "posts/cr7-vs-lm10-python/index.html#load-and-inspect-the-data",
-    "title": "CR7 vs LM10 in python",
-    "section": "Load and inspect the data",
-    "text": "Load and inspect the data\nThe relative path below reads the shared CSV from this post’s folder. The interpreter path confirms which Python environment executes the post.\n\nimport sys\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nprint(\"Python interpreter:\", sys.executable)\nstats = pd.read_csv(\"../../data/mds521_cr7_lm10.csv\")\nstats[\"Date\"] = pd.to_datetime(stats[\"Date\"], format=\"%Y-%m-%d\")\nprint(f\"{len(stats):,} goal records; {stats.duplicated().sum()} exact duplicate rows\")\nstats[[\"Player\", \"Date\", \"Competition\", \"Type\"]].head()\n\nPython interpreter: /Users/jzq/DSCI521/MasterJJJJ.github.io-mds-website/.venv/bin/python3\n1,413 goal records; 0 exact duplicate rows\n\n\n\n\n\n\n\n\n\nPlayer\nDate\nCompetition\nType\n\n\n\n\n0\nCristiano Ronaldo\n2002-10-07\nLiga Portugal\nSolo run\n\n\n1\nCristiano Ronaldo\n2002-10-07\nLiga Portugal\nHeader\n\n\n2\nCristiano Ronaldo\n2002-10-26\nLiga Portugal\nRight-footed shot\n\n\n3\nCristiano Ronaldo\n2002-11-24\nTaca de Portugal Placard\nLeft-footed shot\n\n\n4\nCristiano Ronaldo\n2002-12-18\nTaca de Portugal Placard\nNaN"
+    "objectID": "posts/r-and-python/index.html#r-use-the-python-object",
+    "href": "posts/r-and-python/index.html#r-use-the-python-object",
+    "title": "CR7 vs LM10: Python and R working together",
+    "section": "R: use the Python object",
+    "text": "R: use the Python object\npy$annual_counts accesses the dictionary created in the previous Python chunk. R calculates Ronaldo’s count minus Messi’s count for each year. Positive values mean Ronaldo has more recorded goals; negative values mean Messi has more.\n\nshared_counts &lt;- py$annual_counts\nyearly &lt;- data.frame(\n  Year = unlist(shared_counts$Year),\n  Ronaldo = unlist(shared_counts$Ronaldo),\n  Messi = unlist(shared_counts$Messi)\n)\nstopifnot(nrow(yearly) == 17, !anyNA(yearly))\nyearly$Difference &lt;- yearly$Ronaldo - yearly$Messi\nkable(yearly, row.names = FALSE,\n      caption = \"Recorded goals and Ronaldo-minus-Messi differences by calendar year.\")\n\n\nRecorded goals and Ronaldo-minus-Messi differences by calendar year.\n\n\nYear\nRonaldo\nMessi\nDifference\n\n\n\n\n2006\n19\n10\n9\n\n\n2007\n29\n25\n4\n\n\n2008\n34\n20\n14\n\n\n2009\n29\n38\n-9\n\n\n2010\n45\n58\n-13\n\n\n2011\n53\n55\n-2\n\n\n2012\n58\n79\n-21\n\n\n2013\n59\n39\n20\n\n\n2014\n56\n50\n6\n\n\n2015\n54\n48\n6\n\n\n2016\n42\n51\n-9\n\n\n2017\n42\n50\n-8\n\n\n2018\n43\n47\n-4\n\n\n2019\n25\n45\n-20\n\n\n2020\n41\n26\n15\n\n\n2021\n34\n34\n0\n\n\n2022\n13\n20\n-7\n\n\n\n\nronaldo_years &lt;- sum(yearly$Difference &gt; 0)\nmessi_years &lt;- sum(yearly$Difference &lt; 0)\ntied_years &lt;- sum(yearly$Difference == 0)"
   },
   {
-    "objectID": "posts/cr7-vs-lm10-python/index.html#count-goals-and-check-coverage",
-    "href": "posts/cr7-vs-lm10-python/index.html#count-goals-and-check-coverage",
-    "title": "CR7 vs LM10 in python",
-    "section": "Count goals and check coverage",
-    "text": "Count goals and check coverage\nI count rows for each player and check the earliest and latest dates. Different coverage periods mean the totals should not be interpreted as a fair comparison of scoring rates.\n\nsummary = stats.groupby(\"Player\").agg(\n    recorded_goals=(\"Player\", \"size\"),\n    first_date=(\"Date\", \"min\"),\n    last_date=(\"Date\", \"max\"),\n    missing_goal_type=(\"Type\", lambda column: column.isna().sum()),\n)\nsummary\n\n\n\n\n\n\n\n\nrecorded_goals\nfirst_date\nlast_date\nmissing_goal_type\n\n\nPlayer\n\n\n\n\n\n\n\n\nCristiano Ronaldo\n710\n2002-10-07\n2023-03-18\n15\n\n\nLionel Messi\n703\n2005-05-01\n2023-03-04\n1\n\n\n\n\n\n\n\nRonaldo has 710 recorded goals and Messi has 703. Ronaldo’s records begin in October 2002, while Messi’s begin in May 2005; both series end in March 2023. A seven-goal difference alone does not establish who was more effective because this file does not provide all appearances or minutes played."
+    "objectID": "posts/r-and-python/index.html#plot-the-differences-in-r",
+    "href": "posts/r-and-python/index.html#plot-the-differences-in-r",
+    "title": "CR7 vs LM10: Python and R working together",
+    "section": "Plot the differences in R",
+    "text": "Plot the differences in R\n\nbar_colors &lt;- ifelse(yearly$Difference &gt; 0, \"#2166ac\",\n                     ifelse(yearly$Difference &lt; 0, \"#b35806\", \"#777777\"))\nbarplot(yearly$Difference, names.arg = yearly$Year,\n        col = bar_colors, border = NA, las = 2,\n        xlab = \"Calendar year\", ylab = \"Recorded goals: Ronaldo minus Messi\")\nabline(h = 0, col = \"#333333\")\n\n\n\n\n\n\n\nFigure 1: Difference in recorded club goals by calendar year, 2006–2022. Blue bars favour Ronaldo, orange bars favour Messi, and zero indicates a tie."
   },
   {
-    "objectID": "posts/cr7-vs-lm10-python/index.html#compare-scoring-types",
-    "href": "posts/cr7-vs-lm10-python/index.html#compare-scoring-types",
-    "title": "CR7 vs LM10 in python",
-    "section": "Compare scoring types",
-    "text": "Compare scoring types\nMissing goal types remain in an explicit Unknown category. Percentages use every recorded goal for each player as the denominator, including unknown types.\n\nstats[\"Type\"] = stats[\"Type\"].fillna(\"Unknown\")\ntype_counts = pd.crosstab(stats[\"Type\"], stats[\"Player\"])\ntype_percent = type_counts.div(type_counts.sum(axis=0), axis=1) * 100\ntype_percent.round(1).rename_axis(\"Goal type\")\n\n\n\n\n\n\n\nPlayer\nCristiano Ronaldo\nLionel Messi\n\n\nGoal type\n\n\n\n\n\n\nChest\n0.0\n0.1\n\n\nCounter attack goal\n0.8\n0.1\n\n\nDeflected shot on goal\n0.3\n0.3\n\n\nDirect free kick\n6.9\n7.4\n\n\nHeader\n15.8\n3.4\n\n\nLeft-footed shot\n15.9\n62.0\n\n\nLong distance kick\n1.3\n0.1\n\n\nPenalty\n18.6\n11.9\n\n\nPenalty rebound\n0.4\n0.4\n\n\nRight-footed shot\n35.6\n12.1\n\n\nSolo run\n0.3\n0.6\n\n\nTap-in\n2.0\n1.3\n\n\nUnknown\n2.1\n0.1"
+    "objectID": "posts/r-and-python/index.html#python-use-rs-results",
+    "href": "posts/r-and-python/index.html#python-use-rs-results",
+    "title": "CR7 vs LM10: Python and R working together",
+    "section": "Python: use R’s results",
+    "text": "Python: use R’s results\nThe r object exposes R variables to Python. This final calculation checks that R’s three categories account for every year in Python’s table, demonstrating that both languages participate in the same computation.\n\nronaldo_ahead = int(r.ronaldo_years)\nmessi_ahead = int(r.messi_years)\nties = int(r.tied_years)\nassert ronaldo_ahead + messi_ahead + ties == len(annual)\nprint(f\"Ronaldo led in {ronaldo_ahead} years; Messi led in {messi_ahead}; ties: {ties}.\")\n\nRonaldo led in 7 years; Messi led in 9; ties: 1."
   },
   {
-    "objectID": "posts/cr7-vs-lm10-python/index.html#visualize-the-distribution",
-    "href": "posts/cr7-vs-lm10-python/index.html#visualize-the-distribution",
-    "title": "CR7 vs LM10 in python",
-    "section": "Visualize the distribution",
-    "text": "Visualize the distribution\n\nordered_types = type_counts.sum(axis=1).sort_values().index\nax = type_percent.loc[ordered_types].plot.barh(\n    color=[\"#2166ac\", \"#b35806\"], figsize=(9, 6)\n)\nax.set_xlabel(\"Share of recorded goals (%)\")\nax.set_ylabel(\"\")\nax.legend(title=\"Player\", loc=\"lower right\")\nax.grid(axis=\"x\", alpha=0.2)\nax.set_axisbelow(True)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigure 1: Share of recorded club goals by dataset scoring category. Unknown includes missing types; each player’s categories sum to 100%."
-  },
-  {
-    "objectID": "posts/cr7-vs-lm10-python/index.html#what-i-found",
-    "href": "posts/cr7-vs-lm10-python/index.html#what-i-found",
-    "title": "CR7 vs LM10 in python",
-    "section": "What I found",
-    "text": "What I found\nMessi’s largest category is left-footed shots (436 goals), while Ronaldo’s is right-footed shots (253). Ronaldo also has more recorded headers (112 versus 24). These differences describe the scoring profiles in this file; they do not measure shooting accuracy because unsuccessful attempts are absent.\nThe categories mix body parts with situations such as penalties and free kicks. A goal labelled Penalty is not also counted under the foot used, so these categories cannot establish the total number of goals scored with each foot. There are also 15 unknown types for Ronaldo and one for Messi."
+    "objectID": "posts/r-and-python/index.html#what-this-comparison-tells-us",
+    "href": "posts/r-and-python/index.html#what-this-comparison-tells-us",
+    "title": "CR7 vs LM10: Python and R working together",
+    "section": "What this comparison tells us",
+    "text": "What this comparison tells us\nWithin this window, Ronaldo leads in 7 calendar years and Messi in 9, with a tie in 1 of those years. The largest absolute annual gap is 21 recorded goals. Counting years gives each year equal weight, regardless of how large the gap was, so it answers a different question from comparing total goals across the whole period.\nThese counts do not adjust for appearances, minutes, opponents, or competitions. Calendar years also cross club seasons. They describe the historical records provided here and cannot establish which player was more efficient or better overall.\nThe language bridge follows Quarto’s knitr and reticulate workflow and reticulate’s Python configuration."
   },
   {
     "objectID": "about.html",

@@ -1,6 +1,6 @@
 # Jerry Jin's MDS website
 
-This Quarto website contains my MDS blog and computational posts comparing recorded club goals for Cristiano Ronaldo and Lionel Messi. The Python and R posts execute code when the site is rendered.
+This Quarto website contains my MDS blog and computational posts comparing recorded club goals for Cristiano Ronaldo and Lionel Messi. The Python, R, and mixed-language bonus posts execute code when the site is rendered.
 
 ## Prerequisites
 
@@ -46,9 +46,9 @@ Open <http://localhost:8000> in your browser. Stop the server with Ctrl+C. To re
 
 ## Data and network requirements
 
-Both analyses read `data/mds521_cr7_lm10.csv`, included in this repository (about 164 KB). From each post's folder, code uses the relative path `../../data/mds521_cr7_lm10.csv` because Quarto executes chunks in the folder containing the post.
+All three analyses read `data/mds521_cr7_lm10.csv`, included in this repository (about 164 KB). From each post's folder, code uses the relative path `../../data/mds521_cr7_lm10.csv` because Quarto executes chunks in the folder containing the post.
 
-The source is [Lionel Messi vs Cristiano Ronaldo | Club Goals](https://www.kaggle.com/datasets/azminetoushikwasi/lionel-messi-vs-cristiano-ronaldo-club-goals), compiled by Azmine Toushik Wasi on Kaggle. The database is licensed under [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/), and its contents under [DbCL 1.0](https://opendatacommons.org/licenses/dbcl/1-0/). The included data retains these licences; any adapted database published with these analyses is also available under ODbL 1.0. Both posts include source and licence attribution.
+The source is [Lionel Messi vs Cristiano Ronaldo | Club Goals](https://www.kaggle.com/datasets/azminetoushikwasi/lionel-messi-vs-cristiano-ronaldo-club-goals), compiled by Azmine Toushik Wasi on Kaggle. The database is licensed under [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/), and its contents under [DbCL 1.0](https://opendatacommons.org/licenses/dbcl/1-0/). The included data retains these licences; any adapted database published with these analyses is also available under ODbL 1.0. All three posts include source and licence attribution.
 
 The CSV is a historical snapshot with records ending in March 2023, not current career totals. No Kaggle login, API key, or data download is needed to render the posts.
 
@@ -57,6 +57,14 @@ Internet access is required initially to clone the repository, download Python i
 ## Environment files
 
 Keep `pyproject.toml`, `uv.lock`, `.python-version`, `renv.lock`, `.Rprofile`, `renv/activate.R`, and `renv/settings.json` in version control. Do not commit `.venv/` or `renv/library/`; those directories are recreated by the build instructions above.
+
+## R and Python bonus post
+
+`posts/r-and-python/index.qmd` uses the knitr engine and reticulate, included in `renv.lock`. Python creates annual goal counts, R receives them through `py$annual_counts` and calculates differences, and Python uses R's results through `r.ronaldo_years`, `r.messi_years`, and `r.tied_years`. Assertions check the counts and the transfer in both directions.
+
+The setup chunk points reticulate to this clone's `.venv/bin/python` before starting Python. The existing restore and render commands above build this post too; there is no separate environment or additional manual setup. These instructions target macOS/Linux.
+
+After rendering, view the bonus post at <http://localhost:8000/posts/r-and-python/> while the local server is running. For the Gradescope PDF, include the bonus post's direct published URL as well as the repository and website URLs, and name the one assignment that should receive all five bonus marks (for example, "Apply the bonus to Milestone 3.").
 
 ## Build verification
 
