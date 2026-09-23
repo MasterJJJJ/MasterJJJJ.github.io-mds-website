@@ -95,6 +95,12 @@ The `r` object exposes R variables to Python. This final calculation checks that
 
 ```{python}
 #| label: python-use-r-results
+from typing import TYPE_CHECKING, Any
+
+# reticulate supplies r at runtime; declare it for editor type checking only.
+if TYPE_CHECKING:
+    r: Any
+
 ronaldo_ahead = int(r.ronaldo_years)
 messi_ahead = int(r.messi_years)
 ties = int(r.tied_years)

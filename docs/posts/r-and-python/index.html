@@ -439,11 +439,17 @@ Figure&nbsp;1: Difference in recorded club goals by calendar year, 2006–2022. 
 <h2 class="anchored" data-anchor-id="python-use-rs-results">Python: use R’s results</h2>
 <p>The <code>r</code> object exposes R variables to Python. This final calculation checks that R’s three categories account for every year in Python’s table, demonstrating that both languages participate in the same computation.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ronaldo_ahead <span class="op">=</span> <span class="bu">int</span>(r.ronaldo_years)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>messi_ahead <span class="op">=</span> <span class="bu">int</span>(r.messi_years)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>ties <span class="op">=</span> <span class="bu">int</span>(r.tied_years)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> ronaldo_ahead <span class="op">+</span> messi_ahead <span class="op">+</span> ties <span class="op">==</span> <span class="bu">len</span>(annual)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Ronaldo led in </span><span class="sc">{</span>ronaldo_ahead<span class="sc">}</span><span class="ss"> years; Messi led in </span><span class="sc">{</span>messi_ahead<span class="sc">}</span><span class="ss">; ties: </span><span class="sc">{</span>ties<span class="sc">}</span><span class="ss">."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> TYPE_CHECKING, Any</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># reticulate supplies r at runtime; declare it for editor type checking only.</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> TYPE_CHECKING:</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    r: Any</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>ronaldo_ahead <span class="op">=</span> <span class="bu">int</span>(r.ronaldo_years)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>messi_ahead <span class="op">=</span> <span class="bu">int</span>(r.messi_years)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>ties <span class="op">=</span> <span class="bu">int</span>(r.tied_years)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> ronaldo_ahead <span class="op">+</span> messi_ahead <span class="op">+</span> ties <span class="op">==</span> <span class="bu">len</span>(annual)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Ronaldo led in </span><span class="sc">{</span>ronaldo_ahead<span class="sc">}</span><span class="ss"> years; Messi led in </span><span class="sc">{</span>messi_ahead<span class="sc">}</span><span class="ss">; ties: </span><span class="sc">{</span>ties<span class="sc">}</span><span class="ss">."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Ronaldo led in 7 years; Messi led in 9; ties: 1.</code></pre>
 </div>

@@ -179,7 +179,7 @@
     "href": "posts/r-and-python/index.html#python-use-rs-results",
     "title": "CR7 vs LM10: Python and R working together",
     "section": "Python: use R’s results",
-    "text": "Python: use R’s results\nThe r object exposes R variables to Python. This final calculation checks that R’s three categories account for every year in Python’s table, demonstrating that both languages participate in the same computation.\n\nronaldo_ahead = int(r.ronaldo_years)\nmessi_ahead = int(r.messi_years)\nties = int(r.tied_years)\nassert ronaldo_ahead + messi_ahead + ties == len(annual)\nprint(f\"Ronaldo led in {ronaldo_ahead} years; Messi led in {messi_ahead}; ties: {ties}.\")\n\nRonaldo led in 7 years; Messi led in 9; ties: 1."
+    "text": "Python: use R’s results\nThe r object exposes R variables to Python. This final calculation checks that R’s three categories account for every year in Python’s table, demonstrating that both languages participate in the same computation.\n\nfrom typing import TYPE_CHECKING, Any\n\n# reticulate supplies r at runtime; declare it for editor type checking only.\nif TYPE_CHECKING:\n    r: Any\n\nronaldo_ahead = int(r.ronaldo_years)\nmessi_ahead = int(r.messi_years)\nties = int(r.tied_years)\nassert ronaldo_ahead + messi_ahead + ties == len(annual)\nprint(f\"Ronaldo led in {ronaldo_ahead} years; Messi led in {messi_ahead}; ties: {ties}.\")\n\nRonaldo led in 7 years; Messi led in 9; ties: 1."
   },
   {
     "objectID": "posts/r-and-python/index.html#what-this-comparison-tells-us",
