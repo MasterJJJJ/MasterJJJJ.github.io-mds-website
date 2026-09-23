@@ -145,5 +145,33 @@
     "title": "About",
     "section": "Outside of data science: swim, badminton, basketball, football, chess",
     "text": "Outside of data science: swim, badminton, basketball, football, chess"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Hi, I’m Jerry Jin! I grew up in Shanghai and moved to Vancouver in Grade 10. I completed my Bachelor of Science in Mathematics at UBC, and I’m now continuing my studies in the Master of Data Science program. Being back at UBC feels familiar, but learning alongside a new group of classmates makes it feel like a fresh start too."
+  },
+  {
+    "objectID": "about.html#a-little-about-me",
+    "href": "about.html#a-little-about-me",
+    "title": "About",
+    "section": "",
+    "text": "Hi, I’m Jerry Jin! I grew up in Shanghai and moved to Vancouver in Grade 10. I completed my Bachelor of Science in Mathematics at UBC, and I’m now continuing my studies in the Master of Data Science program. Being back at UBC feels familiar, but learning alongside a new group of classmates makes it feel like a fresh start too."
+  },
+  {
+    "objectID": "about.html#why-data-science",
+    "href": "about.html#why-data-science",
+    "title": "About",
+    "section": "Why data science?",
+    "text": "Why data science?\nStudying mathematics gave me a foundation in theory and problem-solving. Through MDS, I want to learn how to put that foundation to work with real data: asking useful questions, writing code, and explaining what the results actually tell us. This website is a place for me to share small projects and reflect on what I’m learning along the way."
+  },
+  {
+    "objectID": "about.html#outside-the-classroom",
+    "href": "about.html#outside-the-classroom",
+    "title": "About",
+    "section": "Outside the classroom",
+    "text": "Outside the classroom\nI enjoy swimming, badminton, basketball, and football. I also like chess and board games, especially as a way to spend time with friends and meet people outside my classes. Even with a busy MDS schedule, I hope to keep making time for sports, campus events, and the parts of university life that happen beyond assignments."
   }
 ]

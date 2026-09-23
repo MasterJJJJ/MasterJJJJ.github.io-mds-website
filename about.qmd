@@ -2,6 +2,14 @@
 title: "About"
 ---
 
-## Background: Grew up in Shanghai, been in Vancouver since G10
-## Why data science: I studied Math for my Bachelor at UBC and I want to apply theory to real-life data.
-## Outside of data science: swim, badminton, basketball, football, chess
+## A little about me
+
+Hi, I'm Jerry Jin! I grew up in Shanghai and moved to Vancouver in Grade 10. I completed my Bachelor of Science in Mathematics at UBC, and I'm now continuing my studies in the Master of Data Science program. Being back at UBC feels familiar, but learning alongside a new group of classmates makes it feel like a fresh start too.
+
+## Why data science?
+
+Studying mathematics gave me a foundation in theory and problem-solving. Through MDS, I want to learn how to put that foundation to work with real data: asking useful questions, writing code, and explaining what the results actually tell us. This website is a place for me to share small projects and reflect on what I'm learning along the way.
+
+## Outside the classroom
+
+I enjoy swimming, badminton, basketball, and football. I also like chess and board games, especially as a way to spend time with friends and meet people outside my classes. Even with a busy MDS schedule, I hope to keep making time for sports, campus events, and the parts of university life that happen beyond assignments.
