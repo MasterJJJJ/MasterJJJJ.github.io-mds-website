@@ -1,9 +1,8 @@
 ---
 title: "Jerry Jin"
 ---
-![](images/boardgameclub_logo.jpg){width=250px}
+Hi, I'm Jerry Jin! I grew up in Shanghai and have lived in Vancouver since Grade 10. After completing my Bachelor of Science in Mathematics at UBC, I joined the Master of Data Science program to learn how to apply mathematical ideas to real-world problems.
 
-Three or four sentences is plenty. Say where you came from, what you studied or worked on before MDS, and what you are hoping to get out of the program.
-Hi everyone! My name is Jerry Jin. An international student from Shanghai China. I've been in Vancouver since before the pandemic. I studied Bachelor of Science Major in Math at UBC V. MDs is my dream programme and i hope to get the skillset for transitioning my theoriotical Math skill to real-life problem solver.
-This is the logo for my favourite club in UBC
+On this website, I share projects and reflections from my time in MDS. Visit my [blog](blog.qmd) to see what I'm working on, or read [more about me](about.qmd).
 
+![The logo of my favourite board game club at UBC.](images/boardgameclub_logo.jpg){width=250px}
