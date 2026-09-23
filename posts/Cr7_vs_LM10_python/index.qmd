@@ -10,16 +10,79 @@ Data: [Lionel Messi vs Cristiano Ronaldo | Club Goals](https://www.kaggle.com/da
 
 The database is licensed under the [Open Database License (ODbL) 1.0](https://opendatacommons.org/licenses/odbl/1-0/), and its contents under the [Database Contents License (DbCL) 1.0](https://opendatacommons.org/licenses/dbcl/1-0/). The included data retains these licences; any adapted database published with this analysis is also made available under ODbL 1.0.
 
-#| label: fig-penguin-mass
-#| fig-cap: "Body mass of penguins by species."
+## Question and scope
 
-#| message: false
-#| warning: false
+How do Ronaldo and Messi compare in the number and types of club goals recorded in this dataset? Each row represents one goal, not one match. The file is a historical snapshot, so these results are not current career totals.
+
+## Load and inspect the data
+
+The relative path below reads the shared CSV from this post's folder. The interpreter path confirms which Python environment executes the post.
 
 ```{python}
 #| label: load-data
+#| warning: false
+import sys
 import pandas as pd
+import matplotlib.pyplot as plt
 
-stats = pd.read_csv("data/mds521_cr7_lm10.csv")
-stats.head()
+print("Python interpreter:", sys.executable)
+stats = pd.read_csv("../../data/mds521_cr7_lm10.csv")
+stats["Date"] = pd.to_datetime(stats["Date"], format="%Y-%m-%d")
+print(f"{len(stats):,} goal records; {stats.duplicated().sum()} exact duplicate rows")
+stats[["Player", "Date", "Competition", "Type"]].head()
 ```
+
+## Count goals and check coverage
+
+I count rows for each player and check the earliest and latest dates. Different coverage periods mean the totals should not be interpreted as a fair comparison of scoring rates.
+
+```{python}
+#| label: goal-summary
+summary = stats.groupby("Player").agg(
+    recorded_goals=("Player", "size"),
+    first_date=("Date", "min"),
+    last_date=("Date", "max"),
+    missing_goal_type=("Type", lambda column: column.isna().sum()),
+)
+summary
+```
+
+Ronaldo has 710 recorded goals and Messi has 703. Ronaldo's records begin in October 2002, while Messi's begin in May 2005; both series end in March 2023. A seven-goal difference alone does not establish who was more effective because this file does not provide all appearances or minutes played.
+
+## Compare scoring types
+
+Missing goal types remain in an explicit Unknown category. Percentages use every recorded goal for each player as the denominator, including unknown types.
+
+```{python}
+#| label: scoring-types
+stats["Type"] = stats["Type"].fillna("Unknown")
+type_counts = pd.crosstab(stats["Type"], stats["Player"])
+type_percent = type_counts.div(type_counts.sum(axis=0), axis=1) * 100
+type_percent.round(1).rename_axis("Goal type")
+```
+
+## Visualize the distribution
+
+```{python}
+#| label: fig-python-goal-types
+#| fig-cap: "Share of recorded club goals by dataset scoring category. Unknown includes missing types; each player's categories sum to 100%."
+#| fig-width: 9
+#| fig-height: 6
+ordered_types = type_counts.sum(axis=1).sort_values().index
+ax = type_percent.loc[ordered_types].plot.barh(
+    color=["#2166ac", "#b35806"], figsize=(9, 6)
+)
+ax.set_xlabel("Share of recorded goals (%)")
+ax.set_ylabel("")
+ax.legend(title="Player", loc="lower right")
+ax.grid(axis="x", alpha=0.2)
+ax.set_axisbelow(True)
+plt.tight_layout()
+plt.show()
+```
+
+## What I found
+
+Messi's largest category is left-footed shots (436 goals), while Ronaldo's is right-footed shots (253). Ronaldo also has more recorded headers (112 versus 24). These differences describe the scoring profiles in this file; they do not measure shooting accuracy because unsuccessful attempts are absent.
+
+The categories mix body parts with situations such as penalties and free kicks. A goal labelled Penalty is not also counted under the foot used, so these categories cannot establish the total number of goals scored with each foot. There are also 15 unknown types for Ronaldo and one for Messi.

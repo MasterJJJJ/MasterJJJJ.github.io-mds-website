@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Jerry Jin">
+<meta name="dcterms.date" content="2026-09-10">
 
-<title>index – Jerry Jin</title>
+<title>CR7 vs LM10 in R – Jerry Jin</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -25,6 +27,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -118,17 +155,263 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-source-and-licence" id="toc-data-source-and-licence" class="nav-link active" data-scroll-target="#data-source-and-licence">Data source and licence</a></li>
+  <li><a href="#question-and-scope" id="toc-question-and-scope" class="nav-link" data-scroll-target="#question-and-scope">Question and scope</a></li>
+  <li><a href="#load-and-inspect-the-data" id="toc-load-and-inspect-the-data" class="nav-link" data-scroll-target="#load-and-inspect-the-data">Load and inspect the data</a></li>
+  <li><a href="#summarize-goals-and-date-coverage" id="toc-summarize-goals-and-date-coverage" class="nav-link" data-scroll-target="#summarize-goals-and-date-coverage">Summarize goals and date coverage</a></li>
+  <li><a href="#compare-home-and-away-goals" id="toc-compare-home-and-away-goals" class="nav-link" data-scroll-target="#compare-home-and-away-goals">Compare home and away goals</a></li>
+  <li><a href="#visualize-the-venue-comparison" id="toc-visualize-the-venue-comparison" class="nav-link" data-scroll-target="#visualize-the-venue-comparison">Visualize the venue comparison</a></li>
+  <li><a href="#what-i-found" id="toc-what-i-found" class="nav-link" data-scroll-target="#what-i-found">What I found</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">CR7 vs LM10 in R</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jerry Jin </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 10, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
 
 
+</header>
 
+
+<section id="data-source-and-licence" class="level2">
+<h2 class="anchored" data-anchor-id="data-source-and-licence">Data source and licence</h2>
+<p>Data: <a href="https://www.kaggle.com/datasets/azminetoushikwasi/lionel-messi-vs-cristiano-ronaldo-club-goals">Lionel Messi vs Cristiano Ronaldo | Club Goals</a>, compiled by Azmine Toushik Wasi and published on Kaggle. This analysis uses the locally downloaded CSV stored in this repository.</p>
+<p>The database is licensed under the <a href="https://opendatacommons.org/licenses/odbl/1-0/">Open Database License (ODbL) 1.0</a>, and its contents under the <a href="https://opendatacommons.org/licenses/dbcl/1-0/">Database Contents License (DbCL) 1.0</a>. The included data retains these licences; any adapted database published with this analysis is also made available under ODbL 1.0.</p>
+</section>
+<section id="question-and-scope" class="level2">
+<h2 class="anchored" data-anchor-id="question-and-scope">Question and scope</h2>
+<p>Do the players have different scoring profiles in this historical club-goal dataset? I use R to count the recorded goals and compare the proportion scored at home and away. Each row is one goal, so these are not counts of matches or scoring rates per appearance.</p>
+</section>
+<section id="load-and-inspect-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-and-inspect-the-data">Load and inspect the data</h2>
+<p>The setup suppresses package startup messages while leaving analysis code and output visible. knitr formats the generated tables.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stats <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../../data/mds521_cr7_lm10.csv"</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">$</span>Date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(stats<span class="sc">$</span>Date)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">nrow</span>(stats), <span class="st">"goal records and"</span>, <span class="fu">sum</span>(<span class="fu">duplicated</span>(stats)), <span class="st">"exact duplicate rows</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1413 goal records and 0 exact duplicate rows</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(stats[<span class="fu">c</span>(<span class="st">"Player"</span>, <span class="st">"Date"</span>, <span class="st">"Venue"</span>, <span class="st">"Type"</span>)]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Player</th>
+<th style="text-align: left;">Date</th>
+<th style="text-align: left;">Venue</th>
+<th style="text-align: left;">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cristiano Ronaldo</td>
+<td style="text-align: left;">2002-10-07</td>
+<td style="text-align: left;">H</td>
+<td style="text-align: left;">Solo run</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cristiano Ronaldo</td>
+<td style="text-align: left;">2002-10-07</td>
+<td style="text-align: left;">H</td>
+<td style="text-align: left;">Header</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cristiano Ronaldo</td>
+<td style="text-align: left;">2002-10-26</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">Right-footed shot</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cristiano Ronaldo</td>
+<td style="text-align: left;">2002-11-24</td>
+<td style="text-align: left;">H</td>
+<td style="text-align: left;">Left-footed shot</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cristiano Ronaldo</td>
+<td style="text-align: left;">2002-12-18</td>
+<td style="text-align: left;">H</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cristiano Ronaldo</td>
+<td style="text-align: left;">2003-11-01</td>
+<td style="text-align: left;">H</td>
+<td style="text-align: left;">Direct free kick</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="summarize-goals-and-date-coverage" class="level2">
+<h2 class="anchored" data-anchor-id="summarize-goals-and-date-coverage">Summarize goals and date coverage</h2>
+<p>I split the data by player to check whether the time spans are comparable before interpreting totals.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>by_player <span class="ot">&lt;-</span> <span class="fu">split</span>(stats, stats<span class="sc">$</span>Player)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>summary_table <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">names</span>(by_player), <span class="cf">function</span>(player) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  goals <span class="ot">&lt;-</span> by_player[[player]]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Player =</span> player,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Goals =</span> <span class="fu">nrow</span>(goals),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">First_date =</span> <span class="fu">min</span>(goals<span class="sc">$</span>Date),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Last_date =</span> <span class="fu">max</span>(goals<span class="sc">$</span>Date)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(summary_table, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Player</th>
+<th style="text-align: right;">Goals</th>
+<th style="text-align: left;">First_date</th>
+<th style="text-align: left;">Last_date</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cristiano Ronaldo</td>
+<td style="text-align: right;">710</td>
+<td style="text-align: left;">2002-10-07</td>
+<td style="text-align: left;">2023-03-18</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Lionel Messi</td>
+<td style="text-align: right;">703</td>
+<td style="text-align: left;">2005-05-01</td>
+<td style="text-align: left;">2023-03-04</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The file contains 710 goals for Ronaldo and 703 for Messi. Their records begin in different years and end in March 2023. These totals describe this snapshot, not their full careers today.</p>
+</section>
+<section id="compare-home-and-away-goals" class="level2">
+<h2 class="anchored" data-anchor-id="compare-home-and-away-goals">Compare home and away goals</h2>
+<p>I inspect the venue codes before calculating percentages. Each player’s denominator is their total number of recorded goals, not their number of home or away matches.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="sc">!</span><span class="fu">anyNA</span>(stats<span class="sc">$</span>Venue), <span class="fu">all</span>(stats<span class="sc">$</span>Venue <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"A"</span>)))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">$</span>Venue_label <span class="ot">&lt;-</span> <span class="fu">factor</span>(stats<span class="sc">$</span>Venue, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"A"</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Home"</span>, <span class="st">"Away"</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>venue_counts <span class="ot">&lt;-</span> <span class="fu">table</span>(stats<span class="sc">$</span>Player, stats<span class="sc">$</span>Venue_label)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>venue_percent <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(venue_counts, <span class="at">margin =</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(venue_counts, <span class="at">caption =</span> <span class="st">"Recorded goals by player and venue."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Recorded goals by player and venue.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Home</th>
+<th style="text-align: right;">Away</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cristiano Ronaldo</td>
+<td style="text-align: right;">404</td>
+<td style="text-align: right;">306</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Lionel Messi</td>
+<td style="text-align: right;">419</td>
+<td style="text-align: right;">284</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">round</span>(venue_percent, <span class="dv">1</span>), <span class="at">caption =</span> <span class="st">"Percentage of each player's recorded goals by venue."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Percentage of each player’s recorded goals by venue.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Home</th>
+<th style="text-align: right;">Away</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cristiano Ronaldo</td>
+<td style="text-align: right;">56.9</td>
+<td style="text-align: right;">43.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Lionel Messi</td>
+<td style="text-align: right;">59.6</td>
+<td style="text-align: right;">40.4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="visualize-the-venue-comparison" class="level2">
+<h2 class="anchored" data-anchor-id="visualize-the-venue-comparison">Visualize the venue comparison</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(venue_percent, <span class="at">beside =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#2166ac"</span>, <span class="st">"#b35806"</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">ylab =</span> <span class="st">"Share of recorded goals (%)"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Venue"</span>, <span class="at">border =</span> <span class="cn">NA</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">legend =</span> <span class="fu">rownames</span>(venue_percent),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"#2166ac"</span>, <span class="st">"#b35806"</span>), <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-r-goal-venues" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-r-goal-venues-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-r-goal-venues-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r-goal-venues-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Home and away shares of each player’s recorded club goals. These percentages do not adjust for matches played at each venue.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="what-i-found" class="level2">
+<h2 class="anchored" data-anchor-id="what-i-found">What I found</h2>
+<p>In this snapshot, Ronaldo scored 404 goals at home and 306 away. Messi scored 419 at home and 284 away. The home shares are 56.9% and 59.6%, respectively.</p>
+<p>This comparison shows where the recorded goals occurred. It cannot establish a home advantage or compare player ability: we would need match appearances, minutes played, and opponent information for both scoring and non-scoring matches. Different career coverage and competitions also limit the comparison.</p>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

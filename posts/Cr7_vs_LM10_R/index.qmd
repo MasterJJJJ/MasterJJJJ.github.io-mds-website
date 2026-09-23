@@ -9,3 +9,79 @@ date: 2026-09-10
 Data: [Lionel Messi vs Cristiano Ronaldo | Club Goals](https://www.kaggle.com/datasets/azminetoushikwasi/lionel-messi-vs-cristiano-ronaldo-club-goals), compiled by Azmine Toushik Wasi and published on Kaggle. This analysis uses the locally downloaded CSV stored in this repository.
 
 The database is licensed under the [Open Database License (ODbL) 1.0](https://opendatacommons.org/licenses/odbl/1-0/), and its contents under the [Database Contents License (DbCL) 1.0](https://opendatacommons.org/licenses/dbcl/1-0/). The included data retains these licences; any adapted database published with this analysis is also made available under ODbL 1.0.
+
+## Question and scope
+
+Do the players have different scoring profiles in this historical club-goal dataset? I use R to count the recorded goals and compare the proportion scored at home and away. Each row is one goal, so these are not counts of matches or scoring rates per appearance.
+
+## Load and inspect the data
+
+The setup suppresses package startup messages while leaving analysis code and output visible. knitr formats the generated tables.
+
+```{r}
+#| label: r-load-data
+#| message: false
+#| warning: false
+library(knitr)
+stats <- read.csv("../../data/mds521_cr7_lm10.csv", stringsAsFactors = FALSE)
+stats$Date <- as.Date(stats$Date)
+cat(nrow(stats), "goal records and", sum(duplicated(stats)), "exact duplicate rows\n")
+kable(head(stats[c("Player", "Date", "Venue", "Type")]))
+```
+
+## Summarize goals and date coverage
+
+I split the data by player to check whether the time spans are comparable before interpreting totals.
+
+```{r}
+#| label: r-goal-summary
+by_player <- split(stats, stats$Player)
+summary_table <- do.call(rbind, lapply(names(by_player), function(player) {
+  goals <- by_player[[player]]
+  data.frame(
+    Player = player,
+    Goals = nrow(goals),
+    First_date = min(goals$Date),
+    Last_date = max(goals$Date)
+  )
+}))
+kable(summary_table, row.names = FALSE)
+```
+
+The file contains 710 goals for Ronaldo and 703 for Messi. Their records begin in different years and end in March 2023. These totals describe this snapshot, not their full careers today.
+
+## Compare home and away goals
+
+I inspect the venue codes before calculating percentages. Each player's denominator is their total number of recorded goals, not their number of home or away matches.
+
+```{r}
+#| label: r-venue-summary
+stopifnot(!anyNA(stats$Venue), all(stats$Venue %in% c("H", "A")))
+stats$Venue_label <- factor(stats$Venue, levels = c("H", "A"),
+                            labels = c("Home", "Away"))
+venue_counts <- table(stats$Player, stats$Venue_label)
+venue_percent <- prop.table(venue_counts, margin = 1) * 100
+kable(venue_counts, caption = "Recorded goals by player and venue.")
+kable(round(venue_percent, 1), caption = "Percentage of each player's recorded goals by venue.")
+```
+
+## Visualize the venue comparison
+
+```{r}
+#| label: fig-r-goal-venues
+#| fig-cap: "Home and away shares of each player's recorded club goals. These percentages do not adjust for matches played at each venue."
+#| fig-width: 7
+#| fig-height: 5
+barplot(venue_percent, beside = TRUE,
+        col = c("#2166ac", "#b35806"),
+        ylim = c(0, 100), ylab = "Share of recorded goals (%)",
+        xlab = "Venue", border = NA)
+legend("topright", legend = rownames(venue_percent),
+       fill = c("#2166ac", "#b35806"), bty = "n")
+```
+
+## What I found
+
+In this snapshot, Ronaldo scored `r venue_counts["Cristiano Ronaldo", "Home"]` goals at home and `r venue_counts["Cristiano Ronaldo", "Away"]` away. Messi scored `r venue_counts["Lionel Messi", "Home"]` at home and `r venue_counts["Lionel Messi", "Away"]` away. The home shares are `r round(venue_percent["Cristiano Ronaldo", "Home"], 1)`% and `r round(venue_percent["Lionel Messi", "Home"], 1)`%, respectively.
+
+This comparison shows where the recorded goals occurred. It cannot establish a home advantage or compare player ability: we would need match appearances, minutes played, and opponent information for both scoring and non-scoring matches. Different career coverage and competitions also limit the comparison.
