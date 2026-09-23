@@ -4,8 +4,22 @@ author: "Jerry Jin"
 date: 2026-09-23
 ---
 
+## Data source and licence
+
+Data: [Lionel Messi vs Cristiano Ronaldo | Club Goals](https://www.kaggle.com/datasets/azminetoushikwasi/lionel-messi-vs-cristiano-ronaldo-club-goals), compiled by Azmine Toushik Wasi and published on Kaggle. This analysis uses the locally downloaded CSV stored in this repository.
+
+The database is licensed under the [Open Database License (ODbL) 1.0](https://opendatacommons.org/licenses/odbl/1-0/), and its contents under the [Database Contents License (DbCL) 1.0](https://opendatacommons.org/licenses/dbcl/1-0/). The included data retains these licences; any adapted database published with this analysis is also made available under ODbL 1.0.
+
 #| label: fig-penguin-mass
 #| fig-cap: "Body mass of penguins by species."
 
 #| message: false
 #| warning: false
+
+```{python}
+#| label: load-data
+import pandas as pd
+
+stats = pd.read_csv("data/mds521_cr7_lm10.csv")
+stats.head()
+```
